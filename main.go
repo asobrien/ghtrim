@@ -232,9 +232,8 @@ func handleIssue(client *github.Client, issue *github.Issue, username string) er
 					if strings.Contains(err.Error(), " 422 ") {
 						logrus.Infof("Branch not found: %v", err)
 						return nil
-					} else {
-						return err
 					}
+				return err
 				}
 				logrus.Infof("Branch %s on %s/%s#%v has been deleted.", branch, repoOwner, *pr.Head.Repo.Name, *pr.Number)
 			}

@@ -180,7 +180,10 @@ func getIssues(client *github.Client, username string, page, perPage int) error 
 	}
 
 	for _, issue := range issues {
-		handleIssue(client, issue, username)
+		err = handleIssue(client, issue, username)
+		if err != nil {
+			logrus.Errorf("%v", err)
+		}
 	}
 
 	// Return early if we are on the last page.
@@ -223,9 +226,13 @@ func handleIssue(client *github.Client, issue *github.Issue, username string) er
 
 			// Never delete protected branches or a branch we do not own.
 			if branchOwner == username && !isBranchProtected(branch) {
-				_, err := client.Git.DeleteRef(username, *pr.Head.Repo.Name, strings.Replace("heads/"+*pr.Head.Ref, "#", "%23", -1))
+				_, err := client.Git.DeleteRef(repoOwner, *pr.Head.Repo.Name, strings.Replace("heads/"+*pr.Head.Ref, "#", "%23", -1))
 				// 422 is the error code for when the branch does not exist.
-				if err != nil && !strings.Contains(err.Error(), " 422 ") {
+				if err != nil {
+					if strings.Contains(err.Error(), " 422 ") {
+						logrus.Infof("Branch not found: %v", err)
+						return nil
+					}
 					return err
 				}
 				logrus.Infof("Branch %s on %s/%s#%v has been deleted.", branch, repoOwner, *pr.Head.Repo.Name, *pr.Number)

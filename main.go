@@ -109,12 +109,15 @@ func main() {
 
 	logrus.Infof("Bot started for user %s.", username)
 
+	lastChecked = time.Now()
 	for range ticker.C {
 		page := 1
 		perPage := 20
+		thisCheck := time.Now()
 		if err := getIssues(client, username, page, perPage); err != nil {
 			logrus.Warn(err)
 		}
+		lastChecked = thisCheck
 	}
 }
 
@@ -158,10 +161,6 @@ func isBranchProtected(branch string) bool {
 
 // Get all closed issues (all PRs are issues).
 func getIssues(client *github.Client, username string, page, perPage int) error {
-	if lastChecked.IsZero() {
-		lastChecked = time.Now()
-	}
-
 	opt := &github.IssueListOptions{
 		Filter:    "created",
 		State:     "closed",
@@ -188,10 +187,6 @@ func getIssues(client *github.Client, username string, page, perPage int) error 
 
 	// Return early if we are on the last page.
 	if page == resp.LastPage || resp.NextPage == 0 {
-		// we probably shouldn't be polling more frequently than every
-		// 5 secs, so we can rewind the clock to catch any updates that
-		// may have occured while made the issues API call
-		lastChecked = time.Now().Add(-5 * time.Second)
 		return nil
 	}
 
@@ -230,7 +225,7 @@ func handleIssue(client *github.Client, issue *github.Issue, username string) er
 				// 422 is the error code for when the branch does not exist.
 				if err != nil {
 					if strings.Contains(err.Error(), " 422 ") {
-						logrus.Infof("Branch not found: %v", err)
+						logrus.Debugf("Branch not found: %v", err) // Any branch deletion updates an issue, so this is always seen
 						return nil
 					}
 					return err

@@ -1,13 +1,16 @@
-FROM alpine:latest
-MAINTAINER Jessica Frazelle <jess@linux.com>
+FROM alpine:latest as build
+MAINTAINER Anthony O'Brien
 
+ARG VERSION
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 ENV GOPATH /go
 
 RUN	apk add --no-cache \
 	ca-certificates
 
-COPY . /go/src/github.com/jessfraz/ghb0t
+ENTRYPOINT [ "/usr/bin/ghtrim" ]
+
+WORKDIR /go/src/github.com/asobrien/ghtrim
 
 RUN set -x \
 	&& apk add --no-cache --virtual .build-deps \
@@ -15,12 +18,22 @@ RUN set -x \
 		git \
 		gcc \
 		libc-dev \
-		libgcc \
-	&& cd /go/src/github.com/jessfraz/ghb0t \
-	&& go build -o /usr/bin/ghb0t . \
-	&& apk del .build-deps \
-	&& rm -rf /go \
+		libgcc
+
+COPY . .
+
+RUN set -x \
+	&& CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+	go build -a -tags "netgo cgo static_build" \
+		-ldflags="-X main.VERSION=${VERSION} -w -extldflags -static" \
+		-o /usr/bin/ghtrim . \
 	&& echo "Build complete."
 
 
-ENTRYPOINT [ "ghb0t" ]
+FROM scratch
+MAINTAINER Anthony O'Brien
+
+ENTRYPOINT [ "/ghtrim" ]
+
+ADD https://curl.haxx.se/ca/cacert.pem /etc/ssl/certs/ca.cert
+COPY --from=build /usr/bin/ghtrim /ghtrim

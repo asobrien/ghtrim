@@ -59,7 +59,7 @@ func init() {
 
 	// set log level
 	if debug {
-		logrus.SetLevel(logrus.DebugLevel)
+		logrus.SetLevel(logrus.InfoLevel)
 	}
 
 	if token == "" {
@@ -230,7 +230,7 @@ func handleIssue(client *github.Client, issue *github.Issue, username string) er
 					}
 					return err
 				}
-				logrus.Infof("Branch %s on %s/%s#%v has been deleted.", branch, repoOwner, *pr.Head.Repo.Name, *pr.Number)
+				logrus.Infof("Branch %s on %s/%s#%v deleted.", branch, repoOwner, *pr.Head.Repo.Name, *pr.Number)
 			}
 		}
 	}

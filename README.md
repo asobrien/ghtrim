@@ -1,11 +1,19 @@
-# ghedgetrim
+# ghedgetrim (ghtrim?)
+[![Travis CI](https://travis-ci.org/asobrien/ghedgetrim.svg?branch=master)](https://travis-ci.org/asobrien/ghedgetrim)
 
-This is  fork of [ghb0t](https://github.com/jessfraz/ghb0t), that I modified
+A GitHub Bot to automatically delete your fork's branches after a pull request
+has been merged. This is fork of [ghb0t](https://github.com/jessfraz/ghb0t), that I modified
 to fit my needs.
+
+> **NOTE:** This will **never** delete a branch named "master" or "develop"
+> AND will **never** delete a branch that associated with a PR *you* did not
+> make. If the pull request is closed _without_ merging, it will **not** delete it.
+
 
 ### Why the name change?
 I have too many github bots in my life, so I named this something a little
 more descriptive for my needs. Alas, it's a Github hedge trimmer.
+
 
 ### But why?
 Cleanup stale branches is constantly on my todo list. So why not automate?
@@ -13,28 +21,20 @@ Thanks to [jessfraz](https://github.com/jessfraz) for all the heavy-lifting.
 When I saw [this blog post](https://blog.jessfraz.com/post/personal-infrastructure/)
 I thought, I can finally cross-off "clean stale branches" off my todo list.
 
----
-
-[![Travis CI](https://travis-ci.org/asobrien/ghedgetrim.svg?branch=master)](https://travis-ci.org/asobrien/ghedgetrim)
-
-A GitHub Bot to automatically delete your fork's branches after a pull request
-has been merged.
-
-> **NOTE:** This will **never** delete a branch named "master" AND will
-**never** delete a branch that is not owned by the current authenticated user.
-If the pull request is closed _without_ merging, it will **not** delete it.
 
 ## Usage
 
 ```
-$ ghb0t -h
-ghb0t - v0.1.0
-  -d    run in debug mode
-  -seconds int
-        seconds to wait before checking for new events (default 30)
+$ ghtrim -h
+ghtrim - v0.1.3
+  -branches string
+    	protected branches, comma seperated) (default "master, develop")
+  -d	run in debug mode
+  -interval string
+    	check interval (ex. 5ms, 10s, 1m, 3h) (default "30s")
   -token string
-        GitHub API token
-  -v    print version and exit (shorthand)
+    	GitHub API token
+  -v	print version and exit (shorthand)
   -version
-        print version and exit
+    	print version and exit
 ```

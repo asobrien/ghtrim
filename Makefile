@@ -2,7 +2,7 @@
 PREFIX?=$(shell pwd)
 BUILDTAGS=
 
-.PHONY: clean all fmt vet lint build test install static release
+.PHONY: clean all fmt vet lint build test install static release container version
 .DEFAULT: default
 
 # VERSIONING: Z.Y.x[[-rc][+COMMIT_COUNT.COMMMIT]
@@ -16,6 +16,9 @@ VERSION := $(shell echo "${GIT_TAG}+${GIT_REVS}.git-${GIT_COMMIT}" | sed 's|\+0\
 LDFLAGS = -ldflags="-X main.VERSION=${VERSION}"
 
 all: clean build fmt lint test vet install
+
+version:
+	@printf ${VERSION}
 
 build:
 	@echo "+ $@"
@@ -48,6 +51,10 @@ clean:
 install:
 	@echo "+ $@"
 	@go install .
+
+containter:
+	@echo "+ $@"
+	docker build --build-arg VERSION=${VERSION} -t ghtrim .
 
 release:
 	@echo "+ $@"

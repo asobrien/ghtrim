@@ -6,5 +6,6 @@ steps:
   image: golang
   commands:
   - go get golang.org/x/lint/golint
+  - go get -u
   - go build -v
   - make test

@@ -5,6 +5,6 @@ steps:
 - name: test
   image: golang
   commands:
-  - go get github.com/golang/lint/golint
+  - go get golang.org/x/lint/golint
   - go build -v
   - make test

@@ -27,9 +27,9 @@ I thought, I can finally cross-off "clean stale branches" off my todo list.
 
 ```
 $ ghtrim -h
-ghtrim - v0.1.3
+ghtrim - v1.0.0
   -branches string
-    	protected branches, comma seperated) (default "master, develop")
+    	protected branches, comma seperated) (default "main, master, develop")
   -d	run in debug mode
   -interval string
     	check interval (ex. 5ms, 10s, 1m, 3h) (default "30s")

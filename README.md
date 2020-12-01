@@ -1,6 +1,5 @@
 # ghtrim
-[![Travis
-CI](https://travis-ci.org/asobrien/ghtrim.svg?branch=main)](https://travis-ci.org/asobrien/ghtrim)
+[![Build Status](https://cloud.drone.io/api/badges/asobrien/ghtrim/status.svg?ref=refs/heads/main)](https://cloud.drone.io/asobrien/ghtrim)
 
 A GitHub Bot to automatically delete your fork's branches after a pull request
 has been merged. This is fork of [ghb0t](https://github.com/jessfraz/ghb0t), that I modified

@@ -39,3 +39,6 @@ ghtrim - v1.0.0
   -version
     	print version and exit
 ```
+
+## Build
+Building from source requires go v1.9+.

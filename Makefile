@@ -26,7 +26,7 @@ build:
 
 static:
 	@echo "+ $@"
-	CGO_ENABLED=1 go build -tags "$(BUILDTAGS) cgo static_build" -ldflags "-w -extldflags -static" ${LDFLAGS} -o ghedgetrim .
+	CGO_ENABLED=1 go build -tags "$(BUILDTAGS) cgo static_build" -ldflags "-w -extldflags -static" ${LDFLAGS} -o ghtrim .
 
 fmt:
 	@echo "+ $@"
@@ -46,7 +46,7 @@ vet:
 
 clean:
 	@echo "+ $@"
-	@rm -rf ghedgetrim build
+	@rm -rf ghtrim build
 
 install:
 	@echo "+ $@"

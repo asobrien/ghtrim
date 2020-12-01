@@ -1,5 +1,5 @@
-# ghedgetrim (ghtrim?)
-[![Travis CI](https://travis-ci.org/asobrien/ghedgetrim.svg?branch=master)](https://travis-ci.org/asobrien/ghedgetrim)
+# ghtrim
+[![Build Status](https://cloud.drone.io/api/badges/asobrien/ghtrim/status.svg?ref=refs/heads/main)](https://cloud.drone.io/asobrien/ghtrim)
 
 A GitHub Bot to automatically delete your fork's branches after a pull request
 has been merged. This is fork of [ghb0t](https://github.com/jessfraz/ghb0t), that I modified
@@ -12,7 +12,7 @@ to fit my needs.
 
 ### Why the name change?
 I have too many github bots in my life, so I named this something a little
-more descriptive for my needs. Alas, it's a Github hedge trimmer.
+more descriptive for my needs. Alas, it's a Github branch trimmer.
 
 
 ### But why?
@@ -26,9 +26,9 @@ I thought, I can finally cross-off "clean stale branches" off my todo list.
 
 ```
 $ ghtrim -h
-ghtrim - v0.1.3
+ghtrim - v1.0.0
   -branches string
-    	protected branches, comma seperated) (default "master, develop")
+    	protected branches, comma seperated) (default "main, master, develop")
   -d	run in debug mode
   -interval string
     	check interval (ex. 5ms, 10s, 1m, 3h) (default "30s")
@@ -38,3 +38,6 @@ ghtrim - v0.1.3
   -version
     	print version and exit
 ```
+
+## Build
+Building from source requires go v1.9+.

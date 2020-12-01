@@ -17,7 +17,7 @@ import (
 
 const (
 	// BANNER is what is printed for help/info output
-	BANNER = "ghedgetrim - %s\n"
+	BANNER = "ghtrim - %s\n"
 )
 
 // VERSION is set via ldflags & git tags
@@ -38,7 +38,7 @@ var (
 func init() {
 	// parse flags
 	flag.StringVar(&token, "token", "", "GitHub API token")
-	flag.StringVar(&rawBranches, "branches", "master, develop", "protected branches, comma seperated)")
+	flag.StringVar(&rawBranches, "branches", "main, master, develop", "protected branches, comma seperated)")
 	flag.StringVar(&interval, "interval", "30s", "check interval (ex. 5ms, 10s, 1m, 3h)")
 
 	flag.BoolVar(&version, "version", false, "print version and exit")

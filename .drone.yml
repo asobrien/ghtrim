@@ -1,0 +1,28 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: golang
+  commands:
+  - go mod download
+  - go test
+  - go vet
+  - go build
+
+- name: release
+  image: golang
+  commands:
+  - go get github.com/mitchellh/gox
+  - make release
+  when:
+    event: tag
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    files: build/*
+  when:
+    event: tag

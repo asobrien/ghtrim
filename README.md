@@ -1,5 +1,6 @@
-# ghedgetrim (ghtrim?)
-[![Travis CI](https://travis-ci.org/asobrien/ghedgetrim.svg?branch=master)](https://travis-ci.org/asobrien/ghedgetrim)
+# ghtrim
+[![Travis
+CI](https://travis-ci.org/asobrien/ghtrim.svg?branch=main)](https://travis-ci.org/asobrien/ghtrim)
 
 A GitHub Bot to automatically delete your fork's branches after a pull request
 has been merged. This is fork of [ghb0t](https://github.com/jessfraz/ghb0t), that I modified
@@ -12,7 +13,7 @@ to fit my needs.
 
 ### Why the name change?
 I have too many github bots in my life, so I named this something a little
-more descriptive for my needs. Alas, it's a Github hedge trimmer.
+more descriptive for my needs. Alas, it's a Github branch trimmer.
 
 
 ### But why?

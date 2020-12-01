@@ -17,7 +17,7 @@ import (
 
 const (
 	// BANNER is what is printed for help/info output
-	BANNER = "ghedgetrim - %s\n"
+	BANNER = "ghtrim - %s\n"
 )
 
 // VERSION is set via ldflags & git tags

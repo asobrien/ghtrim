@@ -1,4 +1,4 @@
-module github.com/asobrien/ghedgetrim
+module github.com/asobrien/ghtrim
 
 go 1.15
 

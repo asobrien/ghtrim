@@ -23,7 +23,7 @@ steps:
   image: plugins/github-release
   settings:
     api_key:
-      from_secret: github_token
+      from_secret: drone_github_releases
     files: build/*
   when:
     event:

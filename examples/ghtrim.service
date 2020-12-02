@@ -1,0 +1,16 @@
+[Unit]
+Description=ghtrim: automated GitHub branch pruning
+Documentation=https://github.com/asobrien/ghtrim
+After=network.target
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+RestartSec=10
+ExecStart=/usr/local/bin/ghtrim -d \
+    -branches="master, main, develop" \
+    -interval=5m \
+    -token=${GITHUB_TOKEN}
+
+[Install]
+WantedBy=multi-user.target

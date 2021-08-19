@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"runtime"
 	"strings"
 	"syscall"
 	"time"
@@ -17,7 +18,8 @@ import (
 
 const (
 	// BANNER is what is printed for help/info output
-	BANNER = "ghtrim - %s\n"
+	BANNER     = "ghtrim - %s\n"
+	projectURL = "https://github.com/asobrien/ghtrim"
 )
 
 // VERSION is set via ldflags & git tags
@@ -29,7 +31,7 @@ var (
 	rawBranches string
 	lastChecked time.Time
 
-	branches = []string{"master"} // master is *always* protected
+	branches = []string{"master", "main"} // master & main are *always* protected
 
 	debug   bool
 	version bool
@@ -96,6 +98,8 @@ func main() {
 
 	// Create the github client.
 	client := github.NewClient(tc)
+	client.UserAgent = fmt.Sprintf("ghtrim/%s (%s; +%s)",
+		VERSION, runtime.Version(), projectURL)
 
 	// Get the authenticated user
 	username := whoAmI(client)

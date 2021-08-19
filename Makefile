@@ -59,6 +59,6 @@ containter:
 release:
 	@echo "+ $@"
 	@mkdir -p build && rm -f build/SHA1SUMS
-	@gox -osarch="linux/amd64 linux/arm darwin/amd64" ${LDFLAGS} -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}"
+	@gox -osarch="linux/amd64 linux/arm darwin/amd64" ${LDFLAGS} -tags "$(BUILDTAGS)" -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}"
 	@find build -type f ! -name "SHA1SUMS" -print0 | xargs -0 shasum | sed 's/build\///g' >> build/SHA1SUMS
 	@cat build/SHA1SUMS

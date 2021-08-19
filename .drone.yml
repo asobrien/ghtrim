@@ -15,7 +15,7 @@ steps:
   commands:
   - git fetch --tags
   - go get github.com/mitchellh/gox
-  - make version
+  - echo `make version`
   - make release
   when:
     event:

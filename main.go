@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"os"
@@ -12,7 +13,7 @@ import (
 
 	"golang.org/x/oauth2"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/google/go-github/github"
 )
 
@@ -128,7 +129,7 @@ func main() {
 // Get the authenticated user, the empty string being passed let's the GitHub
 // API know we want ourself. If we don't know who we are, we bail.
 func whoAmI(client *github.Client) string {
-	user, _, err := client.Users.Get("")
+	user, _, err := client.Users.Get(context.Background(), "")
 	if err != nil {
 		logrus.Fatal(err)
 	}
@@ -177,7 +178,7 @@ func getIssues(client *github.Client, username string, page, perPage int) error 
 		},
 	}
 
-	issues, resp, err := client.Issues.List(true, opt)
+	issues, resp, err := client.Issues.List(context.Background(), true, opt)
 	if err != nil {
 		return err
 	}
@@ -202,7 +203,7 @@ func getIssues(client *github.Client, username string, page, perPage int) error 
 // the PR is closed and merged.
 func handleIssue(client *github.Client, issue *github.Issue, username string) error {
 	if (*issue).PullRequestLinks != nil {
-		pr, _, err := client.PullRequests.Get(*issue.Repository.Owner.Login, *issue.Repository.Name, *issue.Number)
+		pr, _, err := client.PullRequests.Get(context.Background(), *issue.Repository.Owner.Login, *issue.Repository.Name, *issue.Number)
 		if err != nil {
 			return err
 		}
@@ -225,7 +226,7 @@ func handleIssue(client *github.Client, issue *github.Issue, username string) er
 
 			// Never delete protected branches or a branch we do not own.
 			if branchOwner == username && !isBranchProtected(branch) {
-				_, err := client.Git.DeleteRef(repoOwner, *pr.Head.Repo.Name, strings.Replace("heads/"+*pr.Head.Ref, "#", "%23", -1))
+				_, err := client.Git.DeleteRef(context.Background(), repoOwner, *pr.Head.Repo.Name, strings.Replace("heads/"+*pr.Head.Ref, "#", "%23", -1))
 				// 422 is the error code for when the branch does not exist.
 				if err != nil {
 					if strings.Contains(err.Error(), " 422 ") {
